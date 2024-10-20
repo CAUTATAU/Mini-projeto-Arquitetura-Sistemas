@@ -1,5 +1,6 @@
 package com.example.mini_projeto.Controllers;
 
+import com.example.mini_projeto.DTOs.SubjectDTO;
 import com.example.mini_projeto.Models.Subject;
 import com.example.mini_projeto.Services.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class SubjectController {
     SubjectService subjectService;
 
     @GetMapping
-    public ResponseEntity<List<Subject>> getAllSubjects() {
+    public ResponseEntity<List<SubjectDTO>> getAllSubjects() {
         return ResponseEntity.ok(subjectService.getallHistorySubjects());
     }
 }

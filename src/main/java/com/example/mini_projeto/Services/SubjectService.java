@@ -1,8 +1,11 @@
 package com.example.mini_projeto.Services;
 
 
+import com.example.mini_projeto.DTOs.SubjectDTO;
+import com.example.mini_projeto.DTOs.SubjectDTOFactory;
 import com.example.mini_projeto.Models.Student;
 import com.example.mini_projeto.Models.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,8 @@ import java.util.List;
 public class SubjectService {
 
     RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    SubjectDTOFactory subjectDTOFactory;
 
     private List<Subject> getSubjects() {
         ResponseEntity<List<Subject>> response = restTemplate.exchange(
@@ -27,12 +32,12 @@ public class SubjectService {
         return response.getBody();
     }
 
-    public List<Subject> getallHistorySubjects() {
+    public List<SubjectDTO> getallHistorySubjects() {
         List<Subject> subjects = getSubjects();
-        List<Subject> historySubjects = new ArrayList<>();
+        List<SubjectDTO> historySubjects = new ArrayList<>();
         for (Subject subject : subjects) {
             if(subject.getCurso().equals("História")){
-                historySubjects.add(subject);
+                historySubjects.add(subjectDTOFactory.createSubjectDTO(subject.getNome(),subject.getCurso()));
             }
         }
         return historySubjects;

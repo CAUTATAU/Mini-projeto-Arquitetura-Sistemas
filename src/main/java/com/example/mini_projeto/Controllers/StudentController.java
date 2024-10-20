@@ -1,6 +1,6 @@
 package com.example.mini_projeto.Controllers;
 
-import com.example.mini_projeto.DTOs.SearchStudentDTO;
+
 import com.example.mini_projeto.Models.Student;
 import com.example.mini_projeto.Services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;

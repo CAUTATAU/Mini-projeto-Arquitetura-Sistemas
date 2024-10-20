@@ -1,7 +1,6 @@
 package com.example.mini_projeto.Services;
 
 
-import com.example.mini_projeto.DTOs.SearchStudentDTO;
 import com.example.mini_projeto.Models.Enums.StudentModality;
 import com.example.mini_projeto.Models.Student;
 import org.springframework.core.ParameterizedTypeReference;

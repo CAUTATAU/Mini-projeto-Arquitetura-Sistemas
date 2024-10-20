@@ -30,7 +30,7 @@ public class StudentService {
         return response.getBody();
     }
 
-    public List<Student>getAllHistoryStudents(){
+    private List<Student>getAllHistoryStudents(){
         List<Student> students = getStudents();
         List<Student> historyStudents = new ArrayList<Student>();
         for(Student student : students){

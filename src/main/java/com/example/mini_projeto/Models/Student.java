@@ -19,7 +19,6 @@ import java.util.Set;
 @Entity
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     @Column(name = "nome")
     String nome;

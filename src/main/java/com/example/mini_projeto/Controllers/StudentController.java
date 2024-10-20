@@ -16,7 +16,7 @@ public class StudentController {
     StudentService studentService = new StudentService();
     @GetMapping
     public ResponseEntity<List<Student>> getAllStudents() {
-        return ResponseEntity.ok(studentService.getAllHistoryStudents());
+        return ResponseEntity.ok(studentService.getAllStudents());
     }
     @GetMapping("/{valor}")
     public ResponseEntity<?> getStudentByIdOrName(@PathVariable String valor) throws Exception {

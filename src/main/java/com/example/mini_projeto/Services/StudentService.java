@@ -3,6 +3,8 @@ package com.example.mini_projeto.Services;
 
 import com.example.mini_projeto.Models.Enums.StudentModality;
 import com.example.mini_projeto.Models.Student;
+import com.example.mini_projeto.Repositories.StudentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,9 @@ import java.util.List;
 @Service
 public class StudentService {
     RestTemplate restTemplate = new RestTemplate();
+
+    @Autowired
+    StudentRepository studentRepository;
 
     private List<Student> getStudents() {
         ResponseEntity<List<Student>> response = restTemplate.exchange(
@@ -34,6 +39,20 @@ public class StudentService {
             }
         }
         return historyStudents;
+    }
+
+    private void syncDbWithApi(){
+        List<Student> students = getAllHistoryStudents();
+        for(Student student : students){
+            if(studentRepository.findById(student.getId()).isEmpty()){
+                studentRepository.save(student);
+            }
+        }
+    }
+
+    public List<Student> getAllStudents(){
+        this.syncDbWithApi();
+        return studentRepository.findAll();
     }
 
     public Student getStudentById(long id) throws Exception{

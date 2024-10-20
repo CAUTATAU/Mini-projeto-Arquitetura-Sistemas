@@ -2,8 +2,7 @@ package com.example.mini_projeto.Services;
 
 
 import com.example.mini_projeto.DTOs.SubjectDTO;
-import com.example.mini_projeto.DTOs.SubjectDTOFactory;
-import com.example.mini_projeto.Models.Student;
+import com.example.mini_projeto.DTOs.Factories.SubjectDTOFactory;
 import com.example.mini_projeto.Models.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;

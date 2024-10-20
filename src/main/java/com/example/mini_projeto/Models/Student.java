@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -17,4 +19,5 @@ public class Student {
     String curso;
     StudentModality modalidade;
     StudentStatus status;
+    List<Subject> disciplinas;
 }

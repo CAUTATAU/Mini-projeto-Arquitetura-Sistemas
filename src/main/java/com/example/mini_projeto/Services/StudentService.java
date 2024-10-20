@@ -16,7 +16,7 @@ import java.util.List;
 public class StudentService {
     RestTemplate restTemplate = new RestTemplate();
 
-    public List<Student> getStudents() {
+    private List<Student> getStudents() {
         ResponseEntity<List<Student>> response = restTemplate.exchange(
                 "https://rmi6vdpsq8.execute-api.us-east-2.amazonaws.com/msAluno",
                 HttpMethod.GET,
@@ -46,7 +46,7 @@ public class StudentService {
 
     public Student getStudentByName(String nome) throws Exception {
         for(Student student : getAllHistoryStudents()) {
-            if(student.getNome().equals(nome)) {  // Corrigido para usar a variável nome
+            if(student.getNome().equals(nome)) {
                 return student;
             }
         }

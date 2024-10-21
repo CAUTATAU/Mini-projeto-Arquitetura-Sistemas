@@ -20,6 +20,6 @@ public class SubjectController {
 
     @GetMapping
     public ResponseEntity<List<SubjectDTO>> getAllSubjects() {
-        return ResponseEntity.ok(subjectService.getallHistorySubjects());
+        return ResponseEntity.ok(subjectService.getAllSubjects());
     }
 }

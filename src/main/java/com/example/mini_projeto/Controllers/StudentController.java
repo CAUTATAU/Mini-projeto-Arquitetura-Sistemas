@@ -2,6 +2,7 @@ package com.example.mini_projeto.Controllers;
 
 
 import com.example.mini_projeto.Models.Student;
+import com.example.mini_projeto.Models.Subject;
 import com.example.mini_projeto.Services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,16 @@ public class StudentController {
             return ResponseEntity.ok(studentService.getStudentById(id));
         } catch (NumberFormatException e) {
             return ResponseEntity.ok(studentService.getStudentByName(valor));
+        }
+    }
+
+    @GetMapping("/{studentId}/subjects")
+    public ResponseEntity<List<Subject>> getSubjectsByStudentId(@PathVariable long studentId) {
+        try {
+            List<Subject> subjects = studentService.getSubjectsByStudentId(studentId);
+            return ResponseEntity.ok(subjects);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(null);
         }
     }
 

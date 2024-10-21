@@ -3,6 +3,7 @@ package com.example.mini_projeto.Services;
 
 import com.example.mini_projeto.Models.Enums.StudentModality;
 import com.example.mini_projeto.Models.Student;
+import com.example.mini_projeto.Models.Subject;
 import com.example.mini_projeto.Repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -55,19 +56,22 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-    public Student getStudentById(long id) throws Exception{
-        for(Student student : getAllHistoryStudents()){
-            if(student.getId() == id) return student;
-        }
-        throw new Exception("Usuário não encontrado");
+    public Student getStudentById(long id){
+        return studentRepository.findById(id).orElse(null);
     }
 
-    public Student getStudentByName(String nome) throws Exception {
-        for(Student student : getAllHistoryStudents()) {
-            if(student.getNome().equals(nome)) {
-                return student;
-            }
+    public Student getStudentByName(String nome) {
+        return studentRepository.findByNome(nome);
+    }
+
+    public List<Subject> getSubjectsByStudentId(long studentId) {
+        // Recupera o estudante pelo ID
+        Student student = studentRepository.findById(studentId).orElse(null);
+        if (student == null) {
+            throw new RuntimeException("Estudante não encontrado");
         }
-        throw new Exception("Usuário não encontrado");
+
+        // Retorna as disciplinas nas quais o estudante está matriculado
+        return new ArrayList<>(student.getSubjects());
     }
 }

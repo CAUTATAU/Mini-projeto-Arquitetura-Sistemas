@@ -3,51 +3,44 @@ package com.example.mini_projeto.Services;
 
 import com.example.mini_projeto.DTOs.SubjectDTO;
 import com.example.mini_projeto.DTOs.Factories.SubjectDTOFactory;
-import com.example.mini_projeto.Models.Student;
 import com.example.mini_projeto.Models.Subject;
 import com.example.mini_projeto.Repositories.SubjectRepository;
+import com.example.mini_projeto.Services.Interface.ModelsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class SubjectService {
+public class SubjectService implements ModelsService<Subject> {
 
-    RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    ExternalAPIService externalAPIService;
     @Autowired
     SubjectDTOFactory subjectDTOFactory;
     @Autowired
     SubjectRepository subjectRepository;
+    @Autowired
+    ModelsFilter modelFilter;
 
-    private List<Subject> getSubjects() {
-        ResponseEntity<List<Subject>> response = restTemplate.exchange(
-                "https://sswfuybfs8.execute-api.us-east-2.amazonaws.com/disciplinaServico/msDisciplina",
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<Subject>>() {}
-        );
-        return response.getBody();
-    }
 
-    private List<Subject> getallHistorySubjects() {
-        List<Subject> subjects = getSubjects();
+
+
+    @Override
+    public List<Subject> getAll() {
+        List<Subject> subjects = externalAPIService.getSubjects();
         List<Subject> historySubjects = new ArrayList<>();
         for (Subject subject : subjects) {
-            if(subject.getCurso().equals("História")){
+            if(modelFilter.checkIfSubjectIsHistory(subject)) {
                 historySubjects.add(subject);
             }
         }
         return historySubjects;
     }
 
-    private void syncDbWithApi(){
-        List<Subject> subjects = getallHistorySubjects();
+    @Override
+    public void syncWithDatabase() {
+        List<Subject> subjects = getAll();
         for(Subject subject : subjects){
             if(subjectRepository.findById(subject.getId()).isEmpty()){
                 subjectRepository.save(subject);
@@ -56,7 +49,7 @@ public class SubjectService {
     }
 
     public List<SubjectDTO> getAllSubjects(){
-        this.syncDbWithApi();
+        this.syncWithDatabase();
         List<Subject> subjects = subjectRepository.findAll();
         List<SubjectDTO> subjectDTOs = new ArrayList<>();
         for(Subject subject : subjects){
@@ -64,4 +57,6 @@ public class SubjectService {
         }
         return subjectDTOs;
     }
+
+
 }

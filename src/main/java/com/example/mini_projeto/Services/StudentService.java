@@ -1,49 +1,41 @@
 package com.example.mini_projeto.Services;
 
 
-import com.example.mini_projeto.Models.Enums.StudentModality;
 import com.example.mini_projeto.Models.Student;
 import com.example.mini_projeto.Models.Subject;
 import com.example.mini_projeto.Repositories.StudentRepository;
+import com.example.mini_projeto.Services.Interface.ModelsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
 import java.util.ArrayList;
 import java.util.List;
 @Service
-public class StudentService {
-    RestTemplate restTemplate = new RestTemplate();
+public class StudentService implements ModelsService {
+    @Autowired
+    ExternalAPIService externalAPIService;
 
     @Autowired
     StudentRepository studentRepository;
 
-    private List<Student> getStudents() {
-        ResponseEntity<List<Student>> response = restTemplate.exchange(
-                "https://rmi6vdpsq8.execute-api.us-east-2.amazonaws.com/msAluno",
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<Student>>() {}
-        );
-        return response.getBody();
-    }
+    @Autowired
+    ModelsFilter modelFilter;
 
-    private List<Student>getAllHistoryStudents(){
-        List<Student> students = getStudents();
+
+    @Override
+    public List<Student> getAll() {
+        List<Student> students = externalAPIService.getStudents();
         List<Student> historyStudents = new ArrayList<Student>();
         for(Student student : students){
-            if(student.getCurso().equals("História") && student.getModalidade().equals(StudentModality.Presencial)){
+            if(modelFilter.checkIfIsHistoryStudentAndPresencial(student)){
                 historyStudents.add(student);
             }
         }
         return historyStudents;
     }
 
-    private void syncDbWithApi(){
-        List<Student> students = getAllHistoryStudents();
+    @Override
+    public void syncWithDatabase() {
+        List<Student> students = getAll();
         for(Student student : students){
             if(studentRepository.findById(student.getId()).isEmpty()){
                 studentRepository.save(student);
@@ -52,7 +44,7 @@ public class StudentService {
     }
 
     public List<Student> getAllStudents(){
-        this.syncDbWithApi();
+        this.syncWithDatabase();
         return studentRepository.findAll();
     }
 
@@ -74,4 +66,7 @@ public class StudentService {
         // Retorna as disciplinas nas quais o estudante está matriculado
         return new ArrayList<>(student.getSubjects());
     }
+
+
+
 }

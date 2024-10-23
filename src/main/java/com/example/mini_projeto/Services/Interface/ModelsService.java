@@ -1,5 +1,6 @@
 package com.example.mini_projeto.Services.Interface;
 
+import com.example.mini_projeto.DTOs.SubjectDTO;
 import com.example.mini_projeto.Models.Subject;
 
 import java.util.List;

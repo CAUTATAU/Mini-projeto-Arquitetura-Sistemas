@@ -2,6 +2,7 @@ package com.example.mini_projeto.Controllers;
 
 import com.example.mini_projeto.DTOs.SubjectDTO;
 import com.example.mini_projeto.Models.Subject;
+import com.example.mini_projeto.Services.Interface.ModelsService;
 import com.example.mini_projeto.Services.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,10 @@ import java.util.List;
 public class SubjectController {
 
     @Autowired
-    SubjectService subjectService;
+    ModelsService<Subject> subjectService;
 
     @GetMapping
-    public ResponseEntity<List<SubjectDTO>> getAllSubjects() {
-        return ResponseEntity.ok(subjectService.getAllSubjects());
+    public ResponseEntity<List<Subject>> getAllSubjects() {
+        return ResponseEntity.ok(subjectService.getAll());
     }
 }

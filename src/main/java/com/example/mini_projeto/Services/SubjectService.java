@@ -50,7 +50,9 @@ public class SubjectService implements ModelsService<Subject> {
 
     @Override
     public List<Subject> getAll() {
+        this.syncWithDatabase();
         return subjectRepository.findAll();
+
     }
 
     @Override

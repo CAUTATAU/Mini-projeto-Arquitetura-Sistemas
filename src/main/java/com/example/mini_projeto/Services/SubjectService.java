@@ -1,6 +1,7 @@
 package com.example.mini_projeto.Services;
 
 
+import com.example.mini_projeto.DTOs.Factories.ListFactory;
 import com.example.mini_projeto.DTOs.SubjectDTO;
 import com.example.mini_projeto.DTOs.Factories.SubjectDTOFactory;
 import com.example.mini_projeto.Models.Subject;
@@ -22,6 +23,8 @@ public class SubjectService implements ModelsService<Subject> {
     SubjectRepository subjectRepository;
     @Autowired
     ModelsFilter modelFilter;
+    @Autowired
+    ListFactory<Subject> subjectListFactory;
 
 
 
@@ -29,7 +32,7 @@ public class SubjectService implements ModelsService<Subject> {
     @Override
     public List<Subject> getAPI() {
         List<Subject> subjects = externalAPIService.getSubjects();
-        List<Subject> historySubjects = new ArrayList<>();
+        List<Subject> historySubjects = subjectListFactory.createNewList();
         for (Subject subject : subjects) {
             if(modelFilter.checkIfSubjectIsHistory(subject)) {
                 historySubjects.add(subject);

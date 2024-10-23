@@ -1,6 +1,7 @@
 package com.example.mini_projeto.Services;
 
 
+import com.example.mini_projeto.DTOs.Factories.ListFactory;
 import com.example.mini_projeto.DTOs.SubjectDTO;
 import com.example.mini_projeto.Models.Student;
 import com.example.mini_projeto.Models.Subject;
@@ -21,11 +22,14 @@ public class StudentService implements ModelsService<Student> {
     @Autowired
     ModelsFilter modelFilter;
 
+    @Autowired
+    ListFactory<Student> studentListFactory;
+
 
     @Override
     public List<Student> getAPI() {
         List<Student> students = externalAPIService.getStudents();
-        List<Student> historyStudents = new ArrayList<Student>();
+        List<Student> historyStudents = studentListFactory.createNewList();
         for(Student student : students){
             if(modelFilter.checkIfIsHistoryStudentAndPresencial(student)){
                 historyStudents.add(student);

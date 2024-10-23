@@ -1,6 +1,5 @@
 package com.example.mini_projeto.Services;
 
-import com.example.mini_projeto.DTOs.SubjectDTO;
 import com.example.mini_projeto.Models.Book;
 import com.example.mini_projeto.Models.Subject;
 import com.example.mini_projeto.Repositories.BookRepository;

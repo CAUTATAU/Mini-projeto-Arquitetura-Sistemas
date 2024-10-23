@@ -27,7 +27,7 @@ public class SubjectService implements ModelsService<Subject> {
 
 
     @Override
-    public List<Subject> getAll() {
+    public List<Subject> getAPI() {
         List<Subject> subjects = externalAPIService.getSubjects();
         List<Subject> historySubjects = new ArrayList<>();
         for (Subject subject : subjects) {
@@ -40,12 +40,34 @@ public class SubjectService implements ModelsService<Subject> {
 
     @Override
     public void syncWithDatabase() {
-        List<Subject> subjects = getAll();
+        List<Subject> subjects = getAPI();
         for(Subject subject : subjects){
             if(subjectRepository.findById(subject.getId()).isEmpty()){
                 subjectRepository.save(subject);
             }
         }
+    }
+
+    @Override
+    public List<Subject> getAll() {
+        return subjectRepository.findAll();
+    }
+
+    @Override
+    public Subject getById(long id) {
+        return subjectRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Subject getByName(String nome) {
+        return subjectRepository.findByNome(nome);
+    }
+
+
+
+    @Override
+    public List<Subject> getSubjectsByStudentId(long studentId) {
+        return null;
     }
 
     public List<SubjectDTO> getAllSubjects(){

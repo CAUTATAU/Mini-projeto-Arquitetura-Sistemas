@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 @Service
-public class StudentService implements ModelsService {
+public class StudentService implements ModelsService<Student> {
     @Autowired
     ExternalAPIService externalAPIService;
 
@@ -22,7 +22,7 @@ public class StudentService implements ModelsService {
 
 
     @Override
-    public List<Student> getAll() {
+    public List<Student> getAPI() {
         List<Student> students = externalAPIService.getStudents();
         List<Student> historyStudents = new ArrayList<Student>();
         for(Student student : students){
@@ -35,7 +35,7 @@ public class StudentService implements ModelsService {
 
     @Override
     public void syncWithDatabase() {
-        List<Student> students = getAll();
+        List<Student> students = getAPI();
         for(Student student : students){
             if(studentRepository.findById(student.getId()).isEmpty()){
                 studentRepository.save(student);
@@ -43,18 +43,22 @@ public class StudentService implements ModelsService {
         }
     }
 
-    public List<Student> getAllStudents(){
+    @Override
+    public List<Student> getAll() {
         this.syncWithDatabase();
         return studentRepository.findAll();
     }
 
-    public Student getStudentById(long id){
+    @Override
+    public Student getById(long id){
         return studentRepository.findById(id).orElse(null);
     }
 
-    public Student getStudentByName(String nome) {
+    @Override
+    public Student getByName(String nome) {
         return studentRepository.findByNome(nome);
     }
+
 
     public List<Subject> getSubjectsByStudentId(long studentId) {
         // Recupera o estudante pelo ID

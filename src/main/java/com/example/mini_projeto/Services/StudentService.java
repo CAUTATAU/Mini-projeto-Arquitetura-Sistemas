@@ -2,21 +2,20 @@ package com.example.mini_projeto.Services;
 
 
 import com.example.mini_projeto.DTOs.Factories.ListFactory;
-import com.example.mini_projeto.DTOs.SubjectDTO;
 import com.example.mini_projeto.Models.Student;
 import com.example.mini_projeto.Models.Subject;
 import com.example.mini_projeto.Repositories.StudentRepository;
+import com.example.mini_projeto.Services.Filters.StudentFilter;
+import com.example.mini_projeto.Services.Interface.ExternalAPI;
 import com.example.mini_projeto.Services.Interface.ModelsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 @Service
 public class StudentService implements ModelsService<Student> {
     @Autowired
-    ExternalAPIService externalAPIService;
+    ExternalAPI<Student> externalAPI;
 
     @Autowired
     StudentRepository studentRepository;
@@ -30,7 +29,7 @@ public class StudentService implements ModelsService<Student> {
 
     @Override
     public List<Student> getAPI() {
-        List<Student> students = externalAPIService.getStudents();
+        List<Student> students = externalAPI.getAll();
         List<Student> historyStudents = studentListFactory.createNewList();
         for(Student student : students){
             if(studentFilter.checkIfIsHistoryStudent(student) && studentFilter.checkIfStudentIsActive(student) && studentFilter.checkIfStudentIsPresencial(student)) {

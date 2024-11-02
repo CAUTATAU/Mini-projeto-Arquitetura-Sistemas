@@ -6,6 +6,8 @@ import com.example.mini_projeto.DTOs.SubjectDTO;
 import com.example.mini_projeto.DTOs.Factories.SubjectDTOFactory;
 import com.example.mini_projeto.Models.Subject;
 import com.example.mini_projeto.Repositories.SubjectRepository;
+import com.example.mini_projeto.Services.Filters.SubjectFilter;
+import com.example.mini_projeto.Services.Interface.ExternalAPI;
 import com.example.mini_projeto.Services.Interface.ModelsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ import java.util.List;
 public class SubjectService implements ModelsService<Subject> {
 
     @Autowired
-    ExternalAPIService externalAPIService;
+    ExternalAPI<Subject> externalAPI;
     @Autowired
     SubjectDTOFactory subjectDTOFactory;
     @Autowired
@@ -29,7 +31,7 @@ public class SubjectService implements ModelsService<Subject> {
 
     @Override
     public List<Subject> getAPI() {
-        List<Subject> subjects = externalAPIService.getSubjects();
+        List<Subject> subjects = externalAPI.getAll();
         List<Subject> historySubjects = subjectListFactory.createNewList();
         for (Subject subject : subjects) {
             if(subjectFilter.checkIfSubjectIsHistory(subject)) {

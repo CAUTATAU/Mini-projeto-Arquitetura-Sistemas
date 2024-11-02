@@ -3,6 +3,7 @@ package com.example.mini_projeto.Services;
 import com.example.mini_projeto.Models.Book;
 import com.example.mini_projeto.Models.Subject;
 import com.example.mini_projeto.Repositories.BookRepository;
+import com.example.mini_projeto.Services.Interface.ExternalAPI;
 import com.example.mini_projeto.Services.Interface.ModelsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,13 +14,13 @@ import java.util.List;
 public class BookService implements ModelsService<Book> {
 
     @Autowired
-    ExternalAPIService externalAPIService;
+    ExternalAPI<Book> externalAPI;
     @Autowired
     BookRepository bookRepository;
 
     @Override
     public List<Book> getAPI() {
-        return externalAPIService.getBooks();
+        return externalAPI.getAll();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.mini_projeto.Services;
+package com.example.mini_projeto.Services.Filters;
 
 import com.example.mini_projeto.Models.Subject;
 import org.springframework.stereotype.Component;

@@ -16,6 +16,7 @@ public class StudentController {
 
     @Autowired
     ModelsService<Student> studentService;
+
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping
     public ResponseEntity<List<Student>> getAllStudents() {

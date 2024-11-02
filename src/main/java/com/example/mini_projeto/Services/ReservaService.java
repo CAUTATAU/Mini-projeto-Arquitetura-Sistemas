@@ -1,6 +1,5 @@
 package com.example.mini_projeto.Services;
 
-
 import com.example.mini_projeto.DTOs.ReservaDTO;
 import com.example.mini_projeto.Models.Book;
 import com.example.mini_projeto.Models.Student;
@@ -17,13 +16,12 @@ public class ReservaService {
     BookRepository bookRepository;
 
     public void reserveBook(ReservaDTO data) {
-        // Recupera o estudante pelo ID
+
         Student student = studentRepository.findById(data.studentId()).orElse(null);
         if (student == null) {
             throw new RuntimeException("Estudante não encontrado");
         }
 
-        // Recupera o livro pelo título
         Book book = bookRepository.findByTitulo(data.bookTitle());
         if (book == null) {
             throw new RuntimeException("Livro não encontrado");
@@ -40,13 +38,12 @@ public class ReservaService {
     }
 
     public void cancelBookReservation(ReservaDTO data) {
-        // Recupera o estudante pelo ID
+
         Student student = studentRepository.findById(data.studentId()).orElse(null);
         if (student == null) {
             throw new RuntimeException("Estudante não encontrado");
         }
 
-        // Recupera o livro pelo título
         Book book = bookRepository.findByTitulo(data.bookTitle());
         if (book == null) {
             throw new RuntimeException("Livro não encontrado");

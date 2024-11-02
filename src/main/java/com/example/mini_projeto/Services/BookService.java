@@ -7,7 +7,6 @@ import com.example.mini_projeto.Services.Interface.ExternalAPI;
 import com.example.mini_projeto.Services.Interface.ModelsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -39,8 +38,6 @@ public class BookService implements ModelsService<Book> {
         this.syncWithDatabase();
         return bookRepository.findAll();
     }
-
-
 
     @Override
     public Book getById(long id) {

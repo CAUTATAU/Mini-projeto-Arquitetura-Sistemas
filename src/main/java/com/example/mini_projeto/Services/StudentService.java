@@ -55,7 +55,6 @@ public class StudentService implements ModelsService<Student> {
         return studentRepository.findAll();
     }
 
-
     @Override
     public Student getById(long id){
         return studentRepository.findById(id).orElse(null);
@@ -68,16 +67,13 @@ public class StudentService implements ModelsService<Student> {
 
 
     public List<Subject> getSubjectsByStudentId(long studentId) {
-        // Recupera o estudante pelo ID
+
         Student student = studentRepository.findById(studentId).orElse(null);
         if (student == null) {
             throw new RuntimeException("Estudante não encontrado");
         }
 
-        // Retorna as disciplinas nas quais o estudante está matriculado
         return new ArrayList<>(student.getSubjects());
     }
-
-
 
 }

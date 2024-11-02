@@ -2,8 +2,6 @@ package com.example.mini_projeto.Services;
 
 
 import com.example.mini_projeto.DTOs.Factories.ListFactory;
-import com.example.mini_projeto.DTOs.SubjectDTO;
-import com.example.mini_projeto.DTOs.Factories.SubjectDTOFactory;
 import com.example.mini_projeto.Models.Subject;
 import com.example.mini_projeto.Repositories.SubjectRepository;
 import com.example.mini_projeto.Services.Filters.SubjectFilter;
@@ -11,7 +9,7 @@ import com.example.mini_projeto.Services.Interface.ExternalAPI;
 import com.example.mini_projeto.Services.Interface.ModelsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
+
 import java.util.List;
 
 @Service
@@ -19,8 +17,6 @@ public class SubjectService implements ModelsService<Subject> {
 
     @Autowired
     ExternalAPI<Subject> externalAPI;
-    @Autowired
-    SubjectDTOFactory subjectDTOFactory;
     @Autowired
     SubjectRepository subjectRepository;
     @Autowired
@@ -68,21 +64,9 @@ public class SubjectService implements ModelsService<Subject> {
         return subjectRepository.findByNome(nome);
     }
 
-
-
     @Override
     public List<Subject> getSubjectsByStudentId(long studentId) {
         return null;
-    }
-
-    public List<SubjectDTO> getAllSubjects(){
-        this.syncWithDatabase();
-        List<Subject> subjects = subjectRepository.findAll();
-        List<SubjectDTO> subjectDTOs = new ArrayList<>();
-        for(Subject subject : subjects){
-            subjectDTOs.add(subjectDTOFactory.createSubjectDTO(subject.getNome(), subject.getCurso()));
-        }
-        return subjectDTOs;
     }
 
 

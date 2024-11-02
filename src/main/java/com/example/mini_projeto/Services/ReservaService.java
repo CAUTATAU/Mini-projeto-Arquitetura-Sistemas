@@ -28,6 +28,9 @@ public class ReservaService {
         if (book == null) {
             throw new RuntimeException("Livro não encontrado");
         }
+        if(!book.getStatus().equals("Disponível")){
+            throw new RuntimeException("Livro não disponível para reserva");
+        }
 
         student.getBooks().add(book);
         book.setStudent(student);

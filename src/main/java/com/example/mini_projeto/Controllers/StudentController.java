@@ -13,12 +13,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/students")
 public class StudentController {
+
     @Autowired
     ModelsService<Student> studentService;
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping
     public ResponseEntity<List<Student>> getAllStudents() {
         return ResponseEntity.ok(studentService.getAll());
     }
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/{valor}")
     public ResponseEntity<?> getStudentByIdOrName(@PathVariable String valor) throws Exception {
         try {
@@ -28,7 +31,7 @@ public class StudentController {
             return ResponseEntity.ok(studentService.getByName(valor));
         }
     }
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/{studentId}/subjects")
     public ResponseEntity<List<Subject>> getSubjectsByStudentId(@PathVariable long studentId) {
         try {

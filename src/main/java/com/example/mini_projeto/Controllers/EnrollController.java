@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class EnrollController {
     @Autowired
     EnrollService enrollService;
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping()
     public ResponseEntity<String> enrollStudentInSubject(@RequestBody EnrollDTO data) {
         try {

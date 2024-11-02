@@ -27,6 +27,7 @@ public class BookService implements ModelsService<Book> {
         List<Book> books = this.getAPI();
         for(Book book : books){
             if(bookRepository.findById(book.getId()).isEmpty()){
+                book.setStatus("Disponível");
                 bookRepository.save(book);
             }
         }

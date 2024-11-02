@@ -1,8 +1,7 @@
 package com.example.mini_projeto.Models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +21,10 @@ public class Book {
     String autor;
     @Column(name = "ano")
     int ano;
-    /*@Column(name = "status")
-    String status;*/
+    @Column(name = "status")
+    String status;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    private Student student;
 }

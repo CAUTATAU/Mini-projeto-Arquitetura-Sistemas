@@ -32,4 +32,6 @@ public class Student {
     StudentStatus status;
     @ManyToMany(mappedBy = "students")
     private Set<Subject> subjects = new HashSet<>();
+    @OneToMany(mappedBy = "student")
+    private List<Book> books;
 }

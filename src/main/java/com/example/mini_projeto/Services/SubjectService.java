@@ -22,11 +22,9 @@ public class SubjectService implements ModelsService<Subject> {
     @Autowired
     SubjectRepository subjectRepository;
     @Autowired
-    ModelsFilter modelFilter;
+    SubjectFilter subjectFilter;
     @Autowired
     ListFactory<Subject> subjectListFactory;
-
-
 
 
     @Override
@@ -34,7 +32,7 @@ public class SubjectService implements ModelsService<Subject> {
         List<Subject> subjects = externalAPIService.getSubjects();
         List<Subject> historySubjects = subjectListFactory.createNewList();
         for (Subject subject : subjects) {
-            if(modelFilter.checkIfSubjectIsHistory(subject)) {
+            if(subjectFilter.checkIfSubjectIsHistory(subject)) {
                 historySubjects.add(subject);
             }
         }

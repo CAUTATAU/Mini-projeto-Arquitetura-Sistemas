@@ -24,10 +24,6 @@ public class EnrollService {
             throw new RuntimeException("Estudante não encontrado");
         }
 
-        // Verifica se o estudante está ativo e na modalidade presencial
-        if (student.getStatus().equals(StudentStatus.Trancado) || student.getModalidade().equals(StudentModality.EAD)) {
-            throw new RuntimeException("Estudante não está ativo ou não está na modalidade presencial");
-        }
 
         // Recupera a disciplina pelo ID
         Subject subject = subjectRepository.findByNome(data.subjectName());

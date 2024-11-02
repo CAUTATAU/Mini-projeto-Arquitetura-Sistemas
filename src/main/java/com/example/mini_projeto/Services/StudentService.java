@@ -8,6 +8,8 @@ import com.example.mini_projeto.Models.Subject;
 import com.example.mini_projeto.Repositories.StudentRepository;
 import com.example.mini_projeto.Services.Interface.ModelsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +22,7 @@ public class StudentService implements ModelsService<Student> {
     StudentRepository studentRepository;
 
     @Autowired
-    ModelsFilter modelFilter;
+    StudentFilter studentFilter;
 
     @Autowired
     ListFactory<Student> studentListFactory;
@@ -31,7 +33,7 @@ public class StudentService implements ModelsService<Student> {
         List<Student> students = externalAPIService.getStudents();
         List<Student> historyStudents = studentListFactory.createNewList();
         for(Student student : students){
-            if(modelFilter.checkIfIsHistoryStudentAndPresencial(student)){
+            if(studentFilter.checkIfIsHistoryStudent(student) && studentFilter.checkIfStudentIsActive(student) && studentFilter.checkIfStudentIsPresencial(student)) {
                 historyStudents.add(student);
             }
         }
@@ -53,6 +55,7 @@ public class StudentService implements ModelsService<Student> {
         this.syncWithDatabase();
         return studentRepository.findAll();
     }
+
 
     @Override
     public Student getById(long id){
